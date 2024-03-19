@@ -3,18 +3,20 @@ import { StyleSheet } from "react-native";
 export const style = StyleSheet.create({
   btn: {
     position: "absolute",
-    bottom: 5,
+    bottom: 50,
     right: 10,
-    width: 150,
-    backgroundColor: "#C2DAFF",
+    width: 70,
+    height: 70,
+    backgroundColor: "#2F76E5",
     opacity: 0.6,
     alignItems: "center",
-    borderRadius: 7,
+    justifyContent: "center",
+    borderRadius: 70,
   },
   txt: {
-    color: "#2F76E5",
+    color: "white",
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 30,
     paddingVertical: 15,
   },
 });

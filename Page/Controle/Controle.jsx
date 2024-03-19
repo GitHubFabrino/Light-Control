@@ -2,41 +2,43 @@ import React, { useState, useEffect } from "react";
 import { useRoute, Button } from "@react-navigation/native";
 import { SliderHuePicker } from "react-native-slider-color-picker";
 import Slider from "@react-native-community/slider";
+import DatePicker from "@react-native-community/datetimepicker";
+import { DayButton } from "../../component/DayButton/DayButton";
+import { CardTime } from "../../component/CardTime/CardTime";
 
 import tinycolor from "tinycolor2";
-import {
-  View,
-  Text,
-  ScrollView,
-  Switch,
-  Dimensions,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, ScrollView, Switch, Dimensions } from "react-native";
 
 import { s } from "./Controle.style";
 
 const { width } = Dimensions.get("window");
 
 export function Controle() {
-  // const changeColor = (colorHsvOrRgb, resType) => {
-  //   if (resType === "end") {
-  //     setOldColor(tinycolor(colorHsvOrRgb).toHexString());
-  //   }
-  //   console.log(oldColor);
-  // };
-
   const route = useRoute();
 
   if (route.params === undefined) {
-    return <Text>Paramètres de route non définis</Text>;
+    return <Text style={s.noItem}> Veuillez sélectionne une lumière</Text>;
   } else {
-    const { lightData, updateLightState, updateBrigthness } = route.params;
-    console.log(lightData);
+    const { lightData } = route.params;
     const [isEnabled, setIsEnabled] = useState(lightData.state);
+
     const [brightness, setBrightness] = useState(lightData.brightness);
     const [oldColor, setOldColor] = useState(lightData.color);
-    const [selectedTime, setSelectedTime] = useState(new Date());
+
+    const [selectedDays, setSelectedDays] = useState(lightData.date);
+
+    const [showTimePickerOn, setShowTimePickerOn] = useState(false);
+    const [showTimePickerOff, setShowTimePickerOff] = useState(false);
+
+    const date = new Date();
+    function formateTime(date) {
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      return `${hours}:${minutes < 10 ? "0" + minutes : minutes}`;
+    }
+
+    const [timeOn, setTimeOn] = useState(formateTime(date));
+    const [timeOff, setTimeOff] = useState(formateTime(date));
 
     useEffect(() => {
       if (lightData) {
@@ -45,29 +47,14 @@ export function Controle() {
         setSelectedDays(lightData.date);
         setOldColor(lightData.color);
         console.log(" color", oldColor);
+        console.log(timeOn);
+        console.log(timeOff);
       }
     }, [lightData]);
 
-    const showTimePicker = async () => {
-      try {
-        const { action, hour, minute } = await TimePickerAndroid.open({
-          hour: selectedTime.getHours(),
-          minute: selectedTime.getMinutes(),
-          is24Hour: true, // Set to false for 12-hour format
-        });
-        if (action !== TimePickerAndroid.dismissedAction) {
-          const newTime = new Date();
-          newTime.setHours(hour);
-          newTime.setMinutes(minute);
-          setSelectedTime(newTime);
-        }
-      } catch ({ code, message }) {
-        console.warn("Cannot open time picker", message);
-      }
-    };
-
-    const [selectedDays, setSelectedDays] = useState(lightData.date);
-    console.log("ppp", selectedDays);
+    useEffect(() => {
+      setIsEnabled(lightData.state);
+    }, [lightData.state]);
 
     const toggleDay = (day) => {
       const updatedDays = selectedDays.includes(day)
@@ -77,24 +64,14 @@ export function Controle() {
       const { updateSelectedDays } = route.params;
       updateSelectedDays(lightData.id, updatedDays);
     };
-    useEffect(() => {
-      setIsEnabled(lightData.state);
-    }, [lightData.state]);
-
-    const onColorChange = (newColor) => {
-      setColor(newColor);
-    };
 
     const toggleSwitch = () => {
       const newSwitchState = !isEnabled;
       setIsEnabled(newSwitchState);
+      const { updateLightState } = route.params;
       updateLightState(lightData.id, newSwitchState);
     };
 
-    // const handleBrightnessChange = (value) => {
-    //   setBrightness(value);
-    //   // updateBrigthness(lightData.id, value); /// ////////////////////////////////////////////
-    // };
     const handleBrightnessChange = (value) => {
       setBrightness(value);
       const { updateBrightness } = route.params;
@@ -103,15 +80,19 @@ export function Controle() {
 
     const changeColor = (colorHsvOrRgb, resType) => {
       if (resType === "end") {
-        setOldColor(tinycolor(colorHsvOrRgb).toHexString());
-        console.log("mandea", tinycolor(colorHsvOrRgb).toHex());
+        let newColor = tinycolor(colorHsvOrRgb).toHexString();
+        console.log(newColor);
+        setOldColor(newColor);
         const { updateColor } = route.params;
-        updateColor(lightData.id, tinycolor(colorHsvOrRgb).toHexString());
+        updateColor(lightData.id, newColor);
       }
     };
-    console.log(" color", oldColor);
-    console.log(" britness", brightness);
-    console.log(" day", selectedDays);
+    useEffect(() => {
+      console.log("Nouvelle valeur time ", timeOn, timeOff);
+      const { updateSelectedTime } = route.params;
+      updateSelectedTime(lightData.id, timeOn, timeOff);
+    }, [timeOn, timeOff]);
+
     return (
       <View style={s.vue}>
         <Text style={s.label}>{lightData.lightName}</Text>
@@ -120,9 +101,9 @@ export function Controle() {
             <Text style={s.label}>Etat</Text>
             <View style={s.etatLumieure}>
               {isEnabled ? (
-                <Text style={s.sublabel}>Lumieure On</Text>
+                <Text style={s.sublabel}>lumière On</Text>
               ) : (
-                <Text style={s.sublabel}>Lumieure Off</Text>
+                <Text style={s.sublabel}>lumière Off</Text>
               )}
               <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
@@ -157,28 +138,51 @@ export function Controle() {
                 useNativeDriver={true}
                 onColorChange={changeColor}
               />
-              <Text style={s.label}>{oldColor}</Text>
             </View>
 
             <Text style={s.label}>Programme</Text>
             <View style={s.programme}>
               <View style={s.allumee}>
                 <Text style={s.sublabel}>Allumée</Text>
-                {/* <View style={s.container}>
-                  <Button title="Select Time" onPress={showTimePicker} />
-                  <Text style={s.selectedTime}>
-                    Selected Time: {selectedTime.toLocaleTimeString()}
-                  </Text>
-                </View> */}
-                <CardTime time={"12:00"} />
+
+                <CardTime
+                  time={timeOn}
+                  onPress={() => setShowTimePickerOn(true)}
+                />
+                {showTimePickerOn && (
+                  <DatePicker
+                    value={date}
+                    mode="time"
+                    onChange={(event, selectedDate) => {
+                      const currentTime = selectedDate || date;
+                      console.log(currentTime);
+                      setShowTimePickerOn(false);
+                      setTimeOn(formateTime(currentTime));
+                    }}
+                  />
+                )}
               </View>
 
               <View style={s.allumee}>
                 <Text style={s.sublabel}>Eteint</Text>
-                <CardTime time={"12:00"} />
+                <CardTime
+                  time={timeOff}
+                  onPress={() => setShowTimePickerOff(true)}
+                />
+                {showTimePickerOff && (
+                  <DatePicker
+                    value={date}
+                    mode="time"
+                    onChange={(event, selectedDate) => {
+                      const currentTime = selectedDate || date;
+                      setShowTimePickerOff(false);
+                      setTimeOff(formateTime(currentTime));
+                    }}
+                  />
+                )}
               </View>
               <View style={s.repetition}>
-                <Text style={s.sublabel}>Repretition</Text>
+                <Text style={s.sublabel}>Répétition</Text>
                 <View style={s.date}>
                   <DayButton
                     day="Lun"
@@ -224,24 +228,3 @@ export function Controle() {
     );
   }
 }
-
-const DayButton = ({ day, isSelected, onPress }) => {
-  return (
-    <TouchableOpacity onPress={onPress} style={{ alignItems: "center" }}>
-      <Text style={s.sublabel}>{day}</Text>
-      <View style={[s.dayButton, isSelected && s.selected]}>
-        <Text></Text>
-      </View>
-    </TouchableOpacity>
-  );
-};
-
-const CardTime = ({ time }) => {
-  return (
-    <View style={s.cardTime}>
-      <TouchableOpacity>
-        <Text>{time}</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};

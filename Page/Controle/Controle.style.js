@@ -1,6 +1,15 @@
 import { StyleSheet } from "react-native";
 
 export const s = StyleSheet.create({
+  noItem: {
+    alignSelf: "center",
+    width: 250,
+    justifyContent: "center",
+    color: "white",
+    textAlign: "center",
+    position: "absolute",
+    top: 100,
+  },
   vue: {
     padding: 15,
   },
@@ -107,22 +116,6 @@ export const s = StyleSheet.create({
   repetition: {
     marginBottom: 10,
     marginTop: 10,
-  },
-  dayButton: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 100,
-    padding: 5,
-    margin: 5,
-    width: 30,
-    height: 30,
-    alignItems: "center",
-  },
-  selected: {
-    backgroundColor: "lightblue",
-  },
-  selectedDaysText: {
-    fontSize: 16,
   },
   cardTime: {
     borderWidth: 1,

@@ -5,7 +5,7 @@ export function ButtonAdd({ onPress }) {
   return (
     <>
       <TouchableOpacity style={style.btn} onPress={onPress}>
-        <Text style={style.txt}>+ Ajouter</Text>
+        <Text style={style.txt}>+</Text>
       </TouchableOpacity>
     </>
   );

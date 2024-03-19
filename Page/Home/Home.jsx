@@ -1,13 +1,5 @@
-import React, { useState } from "react";
-import {
-  Button,
-  View,
-  Text,
-  Image,
-  Switch,
-  ScrollView,
-  Alert,
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, ScrollView, Alert, Animated } from "react-native";
 import { s } from "./Home.style";
 import { Titre } from "../../component/Titre/Titre";
 import { CardLumieure } from "../../component/CardLumieure/CardLumieure";
@@ -15,80 +7,16 @@ import { ButtonAdd } from "../../component/ButtonAdd/ButtonAdd";
 import Dialog from "react-native-dialog";
 import { useNavigation } from "@react-navigation/native";
 
-export function Home({}) {
+export function Home({ lightList, setLightList }) {
+  // const [fadeAnim] = useState(new Animated.Value(0));
+
   const [isAddDialoguVisible, setisAddDialoguVisible] = useState(false);
   const [inputValue, setinputValue] = useState("");
-  const [lightList, setlightList] = useState([
-    {
-      id: 1,
-      lightName: "Lumieure chambre 1",
-      state: false,
-      brightness: 0.5,
-      color: "#ffffff",
-      date: [],
-    },
-    {
-      id: 2,
-      lightName: "Lumieure chambre",
-      state: true,
-      brightness: 0.5,
-      color: "#ffffff",
-      date: [],
-    },
-    {
-      id: 3,
-      lightName: "Lumieure chambre",
-      state: false,
-      brightness: 0.5,
-      color: "#ffffff",
-      date: [],
-    },
-    {
-      id: 4,
-      lightName: "Lumieure chambre",
-      state: true,
-      brightness: 0.5,
-      color: "#ffffff",
-      date: [],
-    },
-    {
-      id: 5,
-      lightName: "Lumieure chambre",
-      state: true,
-      brightness: 0.5,
-      color: "#ffffff",
-      date: [],
-    },
-  ]);
 
   const nav = useNavigation();
 
-  function deleteLight(id) {
-    Alert.alert("suppression", "Supprimer cette tache ?", [
-      {
-        text: "Supprimer",
-        style: "destructive",
-        onPress: () => {
-          setlightList(lightList.filter((light) => light.id !== id));
-        },
-      },
-      {
-        text: "Annuler",
-        style: "cancel",
-      },
-    ]);
-  }
-  ////////////////////////////////////////////////////////
-  // function goToControle(light) {
-  //   nav.navigate("Controle", {
-  //     lightData: light,
-  //     updateLightState: (id, newState) => updateLightState(id, newState),
-  //     updateBrigthness: (id, newBrightness) =>
-  //       updateBrigthness(id, newBrightness),
-  //   });
-  // }
   function goToControle(light) {
-    nav.navigate("Controle", {
+    nav.navigate("Contrôle", {
       lightData: light,
       updateLightState: (id, newState) => updateLightState(id, newState),
       updateBrightness: (id, newBrightness) =>
@@ -96,10 +24,22 @@ export function Home({}) {
       updateColor: (id, newColor) => updateColor(id, newColor),
       updateSelectedDays: (id, newSelectedDays) =>
         updateSelectedDays(id, newSelectedDays),
+      updateSelectedTime: (id, newTimeOn, newTimeOff) =>
+        updateSelectedTime(id, newTimeOn, newTimeOff),
     });
-    console.log("data", lightList);
   }
-  ////////////////////////////////////////////////////////
+  // useEffect(() => {
+  //   Animated.timing(fadeAnim, {
+  //     toValue: 1,
+  //     duration: 1000, // Durée de l'animation en ms
+  //     useNativeDriver: true,
+  //   }).start();
+  // }, []);
+
+  useEffect(() => {
+    console.log("niova", lightList);
+  }, [lightList]);
+
   function renderLightList() {
     return lightList.map((light) => {
       return (
@@ -117,6 +57,7 @@ export function Home({}) {
       );
     });
   }
+
   function showAddDialogue() {
     setisAddDialoguVisible(true);
   }
@@ -128,15 +69,37 @@ export function Home({}) {
       id: idNew,
       lightName: inputValue,
       state: false,
+      brightness: 0.5,
+      color: "#ffffff",
+      date: [],
+      timeOn: "00:00",
+      timeOff: "00:00",
     };
 
-    setlightList([...lightList, newLight]);
-
+    setLightList([...lightList, newLight]);
     setisAddDialoguVisible(false);
+    setinputValue(" ");
+  }
+
+  function deleteLight(id) {
+    Alert.alert("suppression", "Supprimer cette lumière ?", [
+      {
+        text: "Supprimer",
+        style: "destructive",
+        onPress: () => {
+          setLightList(lightList.filter((light) => light.id !== id));
+        },
+      },
+      {
+        text: "Annuler",
+        style: "cancel",
+      },
+    ]);
   }
 
   function updateLightState(id, newState) {
-    setlightList(
+    console.log("ty state", newState);
+    setLightList(
       lightList.map((light) =>
         light.id === id ? { ...light, state: newState } : light
       )
@@ -145,15 +108,17 @@ export function Home({}) {
   }
 
   function updateBrightness(id, newBrightness) {
-    setlightList(
+    console.log("ty lum", newBrightness);
+    setLightList(
       lightList.map((light) =>
         light.id === id ? { ...light, brightness: newBrightness } : light
       )
     );
+    console.log(lightList);
   }
   function updateColor(id, newColor) {
     console.log("miova", newColor);
-    setlightList(
+    setLightList(
       lightList.map((light) =>
         light.id === id ? { ...light, color: newColor } : light
       )
@@ -161,17 +126,31 @@ export function Home({}) {
   }
 
   function updateSelectedDays(id, newSelectedDays) {
-    setlightList(
+    console.log("ty date", newSelectedDays);
+    setLightList(
       lightList.map((light) =>
         light.id === id ? { ...light, date: newSelectedDays } : light
       )
     );
+    console.log(lightList);
+  }
+
+  function updateSelectedTime(id, newTimeOn, newTimeOff) {
+    console.log("ty Time", newTimeOn, newTimeOff);
+    setLightList(
+      lightList.map((light) =>
+        light.id === id
+          ? { ...light, timeOn: newTimeOn, timeOff: newTimeOff }
+          : light
+      )
+    );
+    console.log(lightList);
   }
 
   return (
     <>
       <View style={s.container}>
-        <Titre>Listes des lumieres </Titre>
+        <Titre>Listes des lumières </Titre>
         <ScrollView>{renderLightList()}</ScrollView>
         <ButtonAdd onPress={showAddDialogue} />
       </View>
@@ -180,11 +159,11 @@ export function Home({}) {
         visible={isAddDialoguVisible}
         onBackdropPress={() => setisAddDialoguVisible(false)}
       >
-        <Dialog.Title>Ajouter une lumieure</Dialog.Title>
+        <Dialog.Title>Ajouter une lumière</Dialog.Title>
         <Dialog.Description>Choisi un nom</Dialog.Description>
         <Dialog.Input onChangeText={setinputValue} />
         <Dialog.Button
-          label="Creer"
+          label="Créer"
           onPress={addLight}
           disabled={inputValue.trim().length === 0}
         />
@@ -192,3 +171,4 @@ export function Home({}) {
     </>
   );
 }
+//style={[s.container, { opacity: fadeAnim }]}
