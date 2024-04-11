@@ -39,10 +39,13 @@ export function CardLumieure({
           />
         </TouchableOpacity>
       )}
-      <Text>{light}</Text>
+      <View style={s.cardLum}>
+        <Text style={s.title}>{light}</Text>
+        <Text style={s.stat}>{isEnabled ? "Allumée" : "Eteint"}</Text>
+      </View>
       <Switch
-        trackColor={{ false: "#767577", true: "#81b0ff" }}
-        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+        trackColor={{ false: "#767577", true: "#f5dd4b" }}
+        thumbColor={isEnabled ? "#f4f3f4" : "#f4f3f4"}
         ios_backgroundColor="#3e3e3e"
         onValueChange={toggleSwitch}
         value={isEnabled}

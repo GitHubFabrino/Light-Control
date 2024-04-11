@@ -10,9 +10,10 @@ export const s = StyleSheet.create({
   subTitle: {
     fontSize: 15,
     fontFamily: "Alata-Regular",
+    color: "gray",
   },
   val: {
-    fontSize: 13,
+    fontSize: 20,
     fontFamily: "Alata-Regular",
   },
 });

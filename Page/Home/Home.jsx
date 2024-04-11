@@ -28,13 +28,6 @@ export function Home({ lightList, setLightList }) {
         updateSelectedTime(id, newTimeOn, newTimeOff),
     });
   }
-  // useEffect(() => {
-  //   Animated.timing(fadeAnim, {
-  //     toValue: 1,
-  //     duration: 1000, // Durée de l'animation en ms
-  //     useNativeDriver: true,
-  //   }).start();
-  // }, []);
 
   useEffect(() => {
     console.log("niova", lightList);
@@ -171,4 +164,3 @@ export function Home({ lightList, setLightList }) {
     </>
   );
 }
-//style={[s.container, { opacity: fadeAnim }]}

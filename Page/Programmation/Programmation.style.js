@@ -3,13 +3,9 @@ import { StyleSheet } from "react-native";
 export const s = StyleSheet.create({
   container: {
     padding: 10,
-    margin: 10,
-    borderBlockColor: "black",
-    borderWidth: 2,
-    backgroundColor: "#559bfd66",
+    margin: 15,
+    backgroundColor: "#d9d9d9",
     borderRadius: 5,
-    borderWidth: 2,
-    borderColor: "#559bfdd0",
     justifyContent: "center",
     shadowColor: "#94939382",
     shadowOffset: {
@@ -28,7 +24,8 @@ export const s = StyleSheet.create({
   title: {
     fontSize: 20,
     fontFamily: "Alata-Regular",
-    color: "white",
+    color: "#3f3f3f",
+    fontWeight: "bold",
   },
 
   date: {

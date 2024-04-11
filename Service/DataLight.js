@@ -1,7 +1,7 @@
 export const DATALIGHT = [
   {
     id: 1,
-    lightName: "lumière chambre 2",
+    lightName: "Lumière chambre 2",
     state: false,
     brightness: 0.5,
     color: "#ffffff",

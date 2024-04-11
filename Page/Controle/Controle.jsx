@@ -80,7 +80,7 @@ export function Controle() {
 
     const changeColor = (colorHsvOrRgb, resType) => {
       if (resType === "end") {
-        let newColor = tinycolor(colorHsvOrRgb).toHexString();
+        let newColor = tinycolor(colorHsvOrRgb).toHex8String();
         console.log(newColor);
         setOldColor(newColor);
         const { updateColor } = route.params;
@@ -96,51 +96,57 @@ export function Controle() {
     return (
       <View style={s.vue}>
         <Text style={s.label}>{lightData.lightName}</Text>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={s.container1}>
-            <Text style={s.label}>Etat</Text>
             <View style={s.etatLumieure}>
-              {isEnabled ? (
-                <Text style={s.sublabel}>lumière On</Text>
-              ) : (
-                <Text style={s.sublabel}>lumière Off</Text>
-              )}
-              <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-              />
+              <Text style={s.labelIn}>Etat</Text>
+              <View style={s.etat1}>
+                {isEnabled ? (
+                  <Text style={s.sublabel}>Lumière On</Text>
+                ) : (
+                  <Text style={s.sublabel}>Lumière Off</Text>
+                )}
+                <Switch
+                  trackColor={{ false: "#767577", true: "#81b0ff" }}
+                  thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitch}
+                  value={isEnabled}
+                />
+              </View>
             </View>
 
-            <Text style={s.label}>Luminosité</Text>
-            <View style={s.etat}>
-              <Slider
-                style={{ width: "100%" }}
-                minimumValue={0}
-                maximumValue={1}
-                step={0.01}
-                value={brightness}
-                onValueChange={handleBrightnessChange}
-              />
+            <View style={s.etatLumieure}>
+              <Text style={s.labelIn}>Luminosité</Text>
+              <View style={s.etat1}>
+                <Slider
+                  style={{ width: "100%" }}
+                  minimumValue={0}
+                  maximumValue={1}
+                  step={0.01}
+                  value={brightness}
+                  onValueChange={handleBrightnessChange}
+                />
+              </View>
             </View>
 
-            <Text style={s.label}>Couleur</Text>
-            <View style={s.etat}>
-              <SliderHuePicker
-                ref={(view) => {
-                  this.sliderHuePicker = view;
-                }}
-                oldColor={oldColor}
-                trackStyle={[{ height: 12, width: width - 48 }]}
-                thumbStyle={s.thumb}
-                useNativeDriver={true}
-                onColorChange={changeColor}
-              />
+            <View style={s.etatLumieure}>
+              <Text style={s.labelIn}>Couleur</Text>
+              <View style={s.etat1}>
+                <SliderHuePicker
+                  ref={(view) => {
+                    this.sliderHuePicker = view;
+                  }}
+                  oldColor={oldColor}
+                  trackStyle={[{ height: 12, width: width - 48 }]}
+                  thumbStyle={s.thumb}
+                  useNativeDriver={true}
+                  onColorChange={changeColor}
+                />
+              </View>
             </View>
 
-            <Text style={s.label}>Programme</Text>
+            <Text style={[s.label, s.labelProg]}>Programme</Text>
             <View style={s.programme}>
               <View style={s.allumee}>
                 <Text style={s.sublabel}>Allumée</Text>

@@ -19,6 +19,18 @@ export const s = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
+  labelProg: {
+    color: "#3f3f3f",
+    marginBottom: 10,
+  },
+  labelIn: {
+    fontFamily: "Alata-Regular",
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#3f3f3f",
+    borderBottomWidth: 2,
+    borderColor: "gray",
+  },
   etat: {
     height: 60,
     backgroundColor: "#fcd7b3",
@@ -37,16 +49,22 @@ export const s = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
   },
+  etat1: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   sublabel: {
     fontFamily: "Alata-Regular",
     fontSize: 15,
-    color: "black",
+    color: "gray",
+    fontWeight: "bold",
   },
   container1: {
     marginTop: 10,
   },
   etatLumieure: {
-    height: 60,
+    height: 100,
     backgroundColor: "#fcd7b3",
     borderRadius: 5,
     borderWidth: 2,
@@ -62,7 +80,7 @@ export const s = StyleSheet.create({
     elevation: 6,
     padding: 10,
     marginBottom: 20,
-    flexDirection: "row",
+    // flexDirection: "row",
     justifyContent: "space-between",
   },
 
@@ -85,7 +103,7 @@ export const s = StyleSheet.create({
     shadowOpacity: 0.35,
   },
   programme: {
-    height: 200,
+    // height: 250,
     backgroundColor: "#fcd7b3",
     borderRadius: 5,
     borderWidth: 2,
@@ -106,6 +124,7 @@ export const s = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 5,
+    alignItems: "center",
   },
   date: {
     flexDirection: "row",
