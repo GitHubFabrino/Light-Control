@@ -97,7 +97,20 @@ exports.signIn = (req, res) => {
         return;
       }
 
-      res.status(200).send({ message: "Connexion réussie !" });
+      Person.findById(user.personne_id, (err, person) => {
+        if (err) {
+          res.status(500).send({
+            message:
+              "Une erreur s'est produite lors de la recherche du nom de l'utilisateur.",
+          });
+          return;
+        }
+
+        res.status(200).send({
+          message: "Connexion réussie !",
+          user: { id: user.id, nom: person.nom, email: user.email },
+        });
+      });
     });
   });
 };

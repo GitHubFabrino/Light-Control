@@ -51,7 +51,7 @@ export const s = StyleSheet.create({
   },
   etat1: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
     alignItems: "center",
   },
   sublabel: {
@@ -59,6 +59,12 @@ export const s = StyleSheet.create({
     fontSize: 15,
     color: "gray",
     fontWeight: "bold",
+  },
+  switch: {
+    alignSelf: "flex-end",
+    // backgroundColor: "red",
+    position: "relative",
+    left: 220,
   },
   container1: {
     marginTop: 10,

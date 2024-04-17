@@ -33,4 +33,10 @@ export const s = StyleSheet.create({
     justifyContent: "space-around",
     margin: 5,
   },
+  colorPreview: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginVertical: 10,
+  },
 });

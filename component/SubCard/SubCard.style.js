@@ -4,6 +4,7 @@ export const s = StyleSheet.create({
   item: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     margin: 5,
   },
 
@@ -11,6 +12,7 @@ export const s = StyleSheet.create({
     fontSize: 15,
     fontFamily: "Alata-Regular",
     color: "gray",
+    width: "50%",
   },
   val: {
     fontSize: 20,

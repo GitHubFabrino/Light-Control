@@ -5,6 +5,7 @@ import Slider from "@react-native-community/slider";
 import DatePicker from "@react-native-community/datetimepicker";
 import { DayButton } from "../../component/DayButton/DayButton";
 import { CardTime } from "../../component/CardTime/CardTime";
+import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import tinycolor from "tinycolor2";
 import { View, Text, ScrollView, Switch, Dimensions } from "react-native";
@@ -87,6 +88,7 @@ export function Controle() {
         updateColor(lightData.id, newColor);
       }
     };
+
     useEffect(() => {
       console.log("Nouvelle valeur time ", timeOn, timeOff);
       const { updateSelectedTime } = route.params;
@@ -112,6 +114,7 @@ export function Controle() {
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitch}
                   value={isEnabled}
+                  style={s.switch}
                 />
               </View>
             </View>
@@ -119,8 +122,14 @@ export function Controle() {
             <View style={s.etatLumieure}>
               <Text style={s.labelIn}>Luminosité</Text>
               <View style={s.etat1}>
+                <Ionicons
+                  name="brightness-6"
+                  size={20}
+                  color="#3f3f3f"
+                  style={{ padding: 5 }}
+                />
                 <Slider
-                  style={{ width: "100%" }}
+                  style={{ width: "85%" }}
                   minimumValue={0}
                   maximumValue={1}
                   step={0.01}
@@ -133,12 +142,18 @@ export function Controle() {
             <View style={s.etatLumieure}>
               <Text style={s.labelIn}>Couleur</Text>
               <View style={s.etat1}>
+                <Ionicons
+                  name="invert-colors"
+                  size={20}
+                  color="#3f3f3f"
+                  style={{ marginRight: 15 }}
+                />
                 <SliderHuePicker
                   ref={(view) => {
                     this.sliderHuePicker = view;
                   }}
                   oldColor={oldColor}
-                  trackStyle={[{ height: 12, width: width - 48 }]}
+                  trackStyle={[{ height: 12, width: width - 100 }]}
                   thumbStyle={s.thumb}
                   useNativeDriver={true}
                   onColorChange={changeColor}
@@ -188,7 +203,15 @@ export function Controle() {
                 )}
               </View>
               <View style={s.repetition}>
-                <Text style={s.sublabel}>Répétition</Text>
+                <Text style={s.sublabel}>
+                  <Ionicons
+                    name="calendar-today"
+                    size={30}
+                    color="#3f3f3f"
+                    style={{ margin: 15 }}
+                  />
+                  Répétition
+                </Text>
                 <View style={s.date}>
                   <DayButton
                     day="Lun"

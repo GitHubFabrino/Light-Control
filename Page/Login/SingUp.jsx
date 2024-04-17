@@ -8,7 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { CustomButton } from "../../component/CustomButton/CustomButton";
+
 export function SingUp({ navigation }) {
   const [email, setEmail] = useState("");
   const [nom, setNom] = useState("");
@@ -54,7 +54,7 @@ export function SingUp({ navigation }) {
       <View style={styles.intro}>
         <TextInput
           type="text"
-          placeholder={"Your name"}
+          placeholder={"Votre nom"}
           value={nom}
           onChangeText={(text) => setNom(text)}
           style={styles.input}
@@ -62,7 +62,7 @@ export function SingUp({ navigation }) {
 
         <TextInput
           type="text"
-          placeholder={"Your email"}
+          placeholder={"Votre email"}
           value={email}
           onChangeText={(text) => setEmail(text)}
           style={styles.input}
@@ -70,7 +70,7 @@ export function SingUp({ navigation }) {
 
         <TextInput
           type="password"
-          placeholder={"Your password"}
+          placeholder={"Votre mot de passe"}
           showPassword={true}
           value={password}
           onChangeText={(text) => setPassword(text)}
@@ -78,7 +78,7 @@ export function SingUp({ navigation }) {
         />
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
         <TouchableOpacity style={styles.button} onPress={handleLogin} s>
-          <Text style={styles.titre}>SingUp</Text>
+          <Text style={styles.titre}>S'inscrire</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -89,7 +89,9 @@ export function SingUp({ navigation }) {
         >
           <Text style={styles.textSingUp}>
             J'ai déja un compte ?{" "}
-            <Text style={[styles.textSingUp, styles.lienSingUp]}>SingIn</Text>
+            <Text style={[styles.textSingUp, styles.lienSingUp]}>
+              Se connecter
+            </Text>
           </Text>
         </TouchableOpacity>
       </View>

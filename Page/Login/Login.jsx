@@ -16,7 +16,7 @@ export function Login({ navigation }) {
   const [error, setError] = useState("");
 
   const handleLogin = async () => {
-    console.log(email, password);
+    // console.log(email, password);
     try {
       const response = await fetch(
         "http://192.168.43.239:3000/api/auth/signin",
@@ -35,8 +35,8 @@ export function Login({ navigation }) {
       const data = await response.json();
 
       if (response.ok) {
-        // Connexion réussie, redirigez l'utilisateur vers l'écran suivant
-        navigation.navigate("MainScreen");
+        navigation.navigate("MainScreen", { user: data.user });
+        console.log(data.user);
       } else {
         // Afficher un message d'erreur si la connexion a échoué
         setError(data.message);
@@ -76,7 +76,7 @@ export function Login({ navigation }) {
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.titre}>Login</Text>
+          <Text style={styles.titre}>Se connecter</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -87,7 +87,9 @@ export function Login({ navigation }) {
         >
           <Text style={styles.textSingUp}>
             Avez vous déja un compte ?{" "}
-            <Text style={[styles.textSingUp, styles.lienSingUp]}>SingUp</Text>
+            <Text style={[styles.textSingUp, styles.lienSingUp]}>
+              S'inscrire
+            </Text>
           </Text>
         </TouchableOpacity>
       </View>
